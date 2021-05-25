@@ -1,5 +1,9 @@
 import React, {useCallback, useState} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Platform, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, TextInput, Platform, FlatList, ScrollView } from 'react-native';
+
+
+import Button from '../components/Button';
+import SkillCard from '../components/SkillCard';
 
 
 const Home = () => {
@@ -16,22 +20,31 @@ const Home = () => {
 
       <TextInput style={styles.input} placeholder='New Skill' onChangeText={setNewSkill} placeholderTextColor='#c3c3c3' />
 
-      <TouchableOpacity style={styles.button} onPress={handleAddSkill} activeOpacity={0.75}>
-        <Text style={styles.buttonText}>Add</Text>
-      </TouchableOpacity>
-
       <Text style={[styles.title, { marginVertical: 50 }]}>My Skills</Text>   
       {/* Da pra reaproveitar estilos de outros componentes e incrementar com algo que falta passando no array */}
 
-      {mySkills.map(data => (
-        <View key={data} style={styles.skillContainer}>
-          <Text style={styles.text}>{data}</Text>   
-        </View>
-      ))}
+      <Button onPress={handleAddSkill} />
+
+      <FlatList
+        data={mySkills}
+        keyExtractor={item => item}
+        renderItem={({ item }) => (
+          <SkillCard data={item} />
+        )}
+      />
+
+      {/* <ScrollView showsVerticalScrollIndicator={false} >
+        {mySkills.map(data => (
+        <SkillCard data={data} key={data} />
+        ))}
+      </ScrollView> */}
     </SafeAreaView>
   )
 }
 
+/*Flatlist lida melhor com listas maiores do que map/scrollview
+o scrollview/map vai renderizar tudode uma vez só, ja a flatlist vai conforme a necessidade, isso tem um ganho de performace
+*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -50,30 +63,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginTop: 30,
     borderRadius: 7
-  },
-  button:{
-    backgroundColor: '#a370f7',
-    padding: 15,
-    borderRadius: 7,
-    alignItems: 'center',
-    marginTop: 15
-  },
-  buttonText:{
-    color: '#FFF',
-    fontSize: 17,
-    fontWeight: 'bold'
-  },
-  skillContainer: {
-    backgroundColor: '#1f1e25',
-    padding: 15,
-    borderRadius: 50,
-    alignItems: 'center',
-    marginBottom: 5
-  },
-  text: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
   }
 })
 
