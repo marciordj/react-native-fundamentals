@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import { Text, StyleSheet, SafeAreaView, TextInput, Platform, FlatList, ScrollView } from 'react-native';
+import { Text, StyleSheet, SafeAreaView, TextInput, Platform, FlatList, StatusBar } from 'react-native';
 
 
 import Button from '../components/Button';
