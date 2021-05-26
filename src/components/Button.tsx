@@ -1,10 +1,14 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, TouchableOpacityProps } from 'react-native';
 
-const Button = ({onPress}) => { //Se lembra de sempre pegar o mesmo nome que passou na chamada do componente e nao o nome da função ou dado que ta sendo mandado
+interface TButtonProps extends TouchableOpacityProps {
+  title: string;
+}
+
+const Button = ({ onPress, title }: TButtonProps) => { //Se lembra de sempre pegar o mesmo nome que passou na chamada do componente e nao o nome da função ou dado que ta sendo mandado
   return (
     <TouchableOpacity style={styles.button} onPress={onPress} activeOpacity={0.75}>
-      <Text style={styles.buttonText}>Add</Text>
+      <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
 };

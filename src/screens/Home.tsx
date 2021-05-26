@@ -5,17 +5,33 @@ import { Text, StyleSheet, SafeAreaView, TextInput, Platform, FlatList, StatusBa
 import Button from '../components/Button';
 import SkillCard from '../components/SkillCard';
 
+interface ISkillData {
+  id: string;
+  name: string;
+}
+
 
 const Home = () => {
-  const [newSkill, setNewSkill] = useState();
-  const [mySkills, setMySkills] = useState([])
+  const [newSkill, setNewSkill] = useState('');
+  const [mySkills, setMySkills] = useState<ISkillData[]>([])
   const [grettings, setGretting] = useState('')
 
   const currentHour = new Date().getHours();
 
   const handleAddSkill = useCallback(() => {
-    setMySkills(oldSkill => [...oldSkill, newSkill])
-  })
+    const data ={
+      id: String(new Date().getTime()),
+      name:  newSkill
+    }
+    
+    setMySkills(oldSkill => [...oldSkill, data])
+  }, [])
+
+  const handleRemoveSkill = useCallback((id:  string) => {
+    setMySkills(oldState => oldState.filter(
+      skill => skill.id !== id
+    ))
+  }, [])
 
   useEffect(() => {
 
@@ -53,13 +69,13 @@ const Home = () => {
       {/* Da pra reaproveitar estilos de outros componentes e incrementar com algo que falta passando no array */}
 
 
-      <Button onPress={handleAddSkill} />
+      <Button onPress={handleAddSkill} title='Add' />
 
       <FlatList
         data={mySkills}
-        keyExtractor={item => item}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <SkillCard data={item} />
+          <SkillCard onPress={() => handleRemoveSkill(item.id)} skill={item.name} />
         )}
       />
 
